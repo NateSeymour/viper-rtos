@@ -31,25 +31,18 @@ set(CMAKE_ASM_FLAGS "${OBJECT_GEN_FLAGS}")
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_C_STANDARD 99)
 
-### Target-Specific Compilation Options ###
-set(TARGET_OBJECT_GEN_FLAGS "-mcpu=cortex-m3")
-
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${TARGET_OBJECT_GEN_FLAGS}")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TARGET_OBJECT_GEN_FLAGS}")
-set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} ${TARGET_OBJECT_GEN_FLAGS}")
-
-### Linker Options ###
-set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/vendor/mps2-an385/mps2-an385.ld)
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--gc-sections -nostdlib -nostartfiles --specs=nosys.specs -mthumb -mabi=aapcs -T${LINKER_SCRIPT}")
+# Targets
+include(vendor/mps2_an385/CMakeLists.txt)
 
 # Viper
 project(viper_rtos ASM C CXX)
 
 add_library(viper_rtos STATIC
-        viper/viper.cpp)
+        viper/viper.c
+        viper/util.h
+        viper/util.s)
 
-# Vendor Specific
-add_executable(target_mps2-an385
-        vendor/mps2-an385/boot.s)
-
-viper_add_bin_output(target_mps2-an385)
+# Bootloader
+add_executable(bootloader boot/vector.s
+        boot/boot.c)
+target_link_libraries(bootloader PUBLIC viper_rtos)
