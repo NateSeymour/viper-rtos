@@ -4,6 +4,7 @@ MEMORY {
 }
 
 __STACK_SIZE = 1M;
+__HEAP_BLOCK_SIZE = 1K;
 
 SECTIONS {
     . = ORIGIN(ROM);
@@ -30,13 +31,14 @@ SECTIONS {
         _ebss = ALIGN(0x8);
     } >RAM
 
-    . = ALIGN(0x4);
+    . = ALIGN(__HEAP_BLOCK_SIZE);
     .heap : {
         __heap_base = .;
+        __heap_top = ORIGIN(RAM) + LENGTH(RAM) - __STACK_SIZE;
     } >RAM
 
     .stack : {
-        . = ORIGIN(RAM) + LENGTH(RAM) - __STACK_SIZE;
+        . = __heap_top;
         __stack_end = ALIGN(0x8);
         . = __stack_end + __STACK_SIZE;
         __stack_top = ALIGN(0x8);

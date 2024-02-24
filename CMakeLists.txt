@@ -34,8 +34,12 @@ add_library(viper_rtos STATIC
         viper/viper.h
         viper/sys/control.h
         viper/sys/control.s
-        viper/std/int.h)
-target_include_directories(viper_rtos SYSTEM PUBLIC ${CMAKE_SOURCE_DIR}/viper)
+        viper/std/int.h
+        viper/memory/allocator.cpp
+        viper/memory/allocator.h
+        viper/sys/link.h
+)
+target_include_directories(viper_rtos PUBLIC "${CMAKE_SOURCE_DIR}/viper")
 
 # Bootloader
 add_executable(bootloader

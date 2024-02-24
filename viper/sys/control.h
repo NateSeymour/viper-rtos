@@ -19,6 +19,7 @@ namespace sys
     };
 
     __STDCALL void __set_privilege_level(PrivilegeLevel npriv);
+    __STDCALL PrivilegeLevel __get_privilege_level();
     __STDCALL void __set_psp(void *psp);
     __STDCALL void __set_active_stack(StackType stack);
 }

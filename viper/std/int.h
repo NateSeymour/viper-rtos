@@ -5,6 +5,7 @@ namespace std
 {
     typedef unsigned char uint8_t;
     typedef signed char int8_t;
+    typedef uint8_t byte;
 
     typedef unsigned short uint16_t;
     typedef signed short int16_t;
@@ -14,6 +15,8 @@ namespace std
 
     typedef unsigned long long uint64_t;
     typedef signed long long int64_t;
+
+    typedef uint32_t size_t;
 }
 
 #endif //VIPER_RTOS_INT_H
