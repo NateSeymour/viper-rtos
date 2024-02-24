@@ -1,11 +1,5 @@
 cmake_minimum_required(VERSION 3.27)
 
-### STOLEN FROM THE PICO TEAM THX ###
-function(viper_add_bin_output TARGET)
-    add_custom_command(TARGET ${TARGET} POST_BUILD COMMAND ${CMAKE_OBJCOPY} -Obinary $<TARGET_FILE:${TARGET}> $<IF:$<BOOL:$<TARGET_PROPERTY:${TARGET},OUTPUT_NAME>>,$<TARGET_PROPERTY:${TARGET},OUTPUT_NAME>,$<TARGET_PROPERTY:${TARGET},NAME>>.bin
-            VERBATIM)
-endfunction()
-
 ### Cross-Compilation ###
 set(CMAKE_SYSTEM_NAME none)
 set(CMAKE_SYSTEM_PROCESSOR arm)
@@ -15,34 +9,36 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 set(tools /opt/homebrew)
 set(CMAKE_C_COMPILER ${tools}/bin/arm-none-eabi-gcc)
 set(CMAKE_CXX_COMPILER ${tools}/bin/arm-none-eabi-g++)
-set(CMAKE_ASM_COMPILER ${tools}/bin/arm-none-eabi-gcc)
 
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 
-set(OBJECT_GEN_FLAGS "-O0 -ffreestanding -mthumb -fno-builtin -Wall -ffunction-sections -fdata-sections -fomit-frame-pointer -mabi=aapcs")
+set(OBJECT_GEN_FLAGS "-O0 -ffreestanding -mthumb -fno-builtin -Wall -ffunction-sections -fdata-sections -fomit-frame-pointer -mabi=aapcs -mcpu=cortex-m3")
 
-set(CMAKE_C_FLAGS "${OBJECT_GEN_FLAGS}")
-set(CMAKE_CXX_FLAGS "${OBJECT_GEN_FLAGS}")
+set(CMAKE_CXX_FLAGS "${OBJECT_GEN_FLAGS} -fno-exceptions -fno-non-call-exceptions -fno-rtti -fno-use-cxa-atexit -fstack-protector-strong -fno-common")
 set(CMAKE_ASM_FLAGS "${OBJECT_GEN_FLAGS}")
 
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_C_STANDARD 99)
+set(CMAKE_CXX_STANDARD 14)
 
-# Targets
-include(vendor/mps2_an385/CMakeLists.txt)
+### Linker Options ###
+set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/application.ld)
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--gc-sections -nostdlib -nostartfiles --specs=nosys.specs -mthumb -mabi=aapcs -T${LINKER_SCRIPT}")
 
 # Viper
-project(viper_rtos ASM C CXX)
+project(viper_rtos ASM CXX)
 
 add_library(viper_rtos STATIC
-        viper/viper.c
-        viper/util.h
-        viper/util.s)
+        viper/viper.cpp
+        viper/viper.h
+        viper/sys/control.h
+        viper/sys/control.s
+        viper/std/int.h)
+target_include_directories(viper_rtos SYSTEM PUBLIC ${CMAKE_SOURCE_DIR}/viper)
 
 # Bootloader
-add_executable(bootloader boot/vector.s
-        boot/boot.c)
+add_executable(bootloader
+        boot/vector.s
+        boot/init.s)
 target_link_libraries(bootloader PUBLIC viper_rtos)
