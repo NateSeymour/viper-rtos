@@ -38,6 +38,11 @@ add_library(viper_rtos STATIC
         viper/memory/allocator.cpp
         viper/memory/allocator.h
         viper/sys/link.h
+        viper/scheduler.cpp
+        viper/scheduler.h
+        viper/std/mutex.cpp
+        viper/std/mutex.h
+        viper/std/mutex.s
 )
 target_include_directories(viper_rtos PUBLIC "${CMAKE_SOURCE_DIR}/viper")
 

@@ -17,3 +17,4 @@ the future.
 - Multithreading
 - Memory Protection
 - Context Switching
+- Synchronization Primitives
