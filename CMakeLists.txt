@@ -15,7 +15,7 @@ set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 
-set(OBJECT_GEN_FLAGS "-O0 -ffreestanding -mthumb -fno-builtin -Wall -ffunction-sections -fdata-sections -fomit-frame-pointer -mabi=aapcs -mcpu=cortex-m3")
+set(OBJECT_GEN_FLAGS "-O0 -ffreestanding -mthumb -fno-builtin -Wall -ffunction-sections -fdata-sections -fomit-frame-pointer -mabi=aapcs -mcpu=cortex-m33")
 
 set(CMAKE_CXX_FLAGS "${OBJECT_GEN_FLAGS} -fno-exceptions -fno-non-call-exceptions -fno-rtti -fno-use-cxa-atexit -fstack-protector-strong -fno-common")
 set(CMAKE_ASM_FLAGS "${OBJECT_GEN_FLAGS}")

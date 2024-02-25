@@ -31,7 +31,7 @@ namespace viper
         Allocator();
     };
 
-    Allocator GlobalAllocator;
+    extern Allocator GlobalAllocator;
 }
 
 #endif //VIPER_RTOS_ALLOCATOR_H

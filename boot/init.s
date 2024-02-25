@@ -4,10 +4,6 @@
 
 .global __reset
 .type __reset, %function
-/**
-- Goals:
-1. Initialize cpp runtime
-*/
 __reset:
     bl __runtime_init
     bl vInitialize

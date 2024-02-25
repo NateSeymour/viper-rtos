@@ -1,6 +1,8 @@
 #include <memory/allocator.h>
 #include <sys/control.h>
 
+viper::Allocator viper::GlobalAllocator;
+
 viper::Allocator::Allocator()
 {
     this->heap_base = (std::byte *)&sys::__heap_base;

@@ -12,6 +12,8 @@
  * @return
  */
 int vInitialize() {
+    viper::GlobalAllocator.Allocate(1);
+
     sys::__set_privilege_level(sys::PrivilegeLevel::kUnprivileged);
     return 0;
 }
