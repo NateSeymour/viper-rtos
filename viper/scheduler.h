@@ -2,6 +2,7 @@
 #define VIPER_RTOS_SCHEDULER_H
 
 #include <std/int.h>
+#include <std/vector.h>
 #include <sys/control.h>
 
 namespace viper
@@ -16,11 +17,18 @@ namespace viper
 
     class Scheduler
     {
+        std::Vector<Thread> threads;
+
     public:
 
     };
 
+    extern Scheduler GlobalScheduler;
+
+    typedef void (*subroutine_t)(void);
+
     void yield();
+    void schedule_thread(subroutine_t subroutine);
 }
 
 #endif //VIPER_RTOS_SCHEDULER_H

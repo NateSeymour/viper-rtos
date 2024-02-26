@@ -26,7 +26,8 @@ namespace viper
         std::size_t block_count = 0;
 
     public:
-        std::byte *Allocate(std::size_t size);
+        std::byte *AllocateRaw(std::size_t size);
+        void Free(std::byte *allocation);
 
         Allocator();
     };

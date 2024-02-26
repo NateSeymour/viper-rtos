@@ -8,9 +8,6 @@ namespace std
 {
     class Mutex;
 
-    extern bool std_mutex_acquire(Mutex *self);
-    extern bool std_mutex_release(Mutex *self);
-
     class Mutex
     {
         std::uint32_t value = 0;

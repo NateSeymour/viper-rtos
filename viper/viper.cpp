@@ -14,6 +14,8 @@ extern int main();
  * @return
  */
 int vInitialize() {
+    viper::GlobalAllocator.AllocateRaw(1);
+
     sys::__set_privilege_level(sys::PrivilegeLevel::kUnprivileged);
     return 0;
 }

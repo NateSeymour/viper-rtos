@@ -1,5 +1,6 @@
 #include <memory/allocator.h>
 #include <sys/control.h>
+#include <std/memory.h>
 
 viper::Allocator viper::GlobalAllocator;
 
@@ -21,7 +22,7 @@ viper::Allocator::Allocator()
     this->allocatable_base = this->heap_base + (reserved_blocks * this->block_size);
 }
 
-std::byte *viper::Allocator::Allocate(std::size_t size)
+std::byte *viper::Allocator::AllocateRaw(std::size_t size)
 {
     if(sys::__get_privilege_level() != sys::PrivilegeLevel::kPrivileged) {
         return nullptr;
@@ -51,6 +52,14 @@ std::byte *viper::Allocator::Allocate(std::size_t size)
                     .secure = false,
             };
 
+            for(std::uint32_t y = i + 1; y < i + requested_block_count; y++) {
+                this->descriptors[y] = {
+                        .thread_id = thread_id,
+                        .blocks_in_allocation = 0,
+                        .secure = false,
+                };
+            }
+
             // TODO: Protect memory via MPU
 
             return this->allocatable_base + (i * this->block_size);
@@ -60,4 +69,20 @@ std::byte *viper::Allocator::Allocate(std::size_t size)
     // TODO: Reclaim memory from lower-priority thread (if applicable) and force allocation
 
     return nullptr;
+}
+
+void viper::Allocator::Free(std::byte *allocation)
+{
+    if(!reinterpret_cast<std::uintptr_t>(allocation) % this->block_size) {
+        // TODO: Assert error
+        return;
+    }
+
+    std::uint32_t block_id = reinterpret_cast<std::uintptr_t>(allocation) / this->block_size;
+
+    if(this->descriptors[block_id].secure) {
+        std::memset(allocation, 0, this->descriptors[block_id].blocks_in_allocation * this->block_size);
+    }
+
+    std::memset(reinterpret_cast<std::byte *>(&this->descriptors[block_id]), 0, this->descriptors[block_id].blocks_in_allocation * sizeof(viper::BlockDescriptor));
 }

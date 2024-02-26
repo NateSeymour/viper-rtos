@@ -15,7 +15,7 @@ set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 
-set(OBJECT_GEN_FLAGS "-O0 -ffreestanding -mthumb -fno-builtin -Wall -ffunction-sections -fdata-sections -fomit-frame-pointer -mabi=aapcs -mcpu=cortex-m33")
+set(OBJECT_GEN_FLAGS "-O0 -ffreestanding -mthumb -fno-builtin -Wall -ffunction-sections -fdata-sections -fomit-frame-pointer -mabi=aapcs -mcpu=cortex-m55")
 
 set(CMAKE_CXX_FLAGS "${OBJECT_GEN_FLAGS} -fno-exceptions -fno-non-call-exceptions -fno-rtti -fno-use-cxa-atexit -fstack-protector-strong -fno-common")
 set(CMAKE_ASM_FLAGS "${OBJECT_GEN_FLAGS}")
@@ -43,6 +43,11 @@ add_library(viper_rtos STATIC
         viper/std/mutex.cpp
         viper/std/mutex.h
         viper/std/mutex.s
+        viper/std/vector.cpp
+        viper/std/vector.h
+        viper/std/box.h
+        viper/std/memory.h
+        viper/std/memory.s
 )
 target_include_directories(viper_rtos PUBLIC "${CMAKE_SOURCE_DIR}/viper")
 

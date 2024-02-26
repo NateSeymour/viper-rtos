@@ -1,5 +1,8 @@
 #include <std/mutex.h>
 
+extern bool std_mutex_acquire(std::Mutex *self);
+extern bool std_mutex_release(std::Mutex *self);
+
 bool std::Mutex::Lock(std::uint32_t max_attempt)
 {
     uint32_t attempt_count = 0;

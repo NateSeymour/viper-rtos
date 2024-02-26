@@ -17,6 +17,7 @@ namespace std
     typedef signed long long int64_t;
 
     typedef uint32_t size_t;
+    typedef uint32_t uintptr_t;
 }
 
 #endif //VIPER_RTOS_INT_H
