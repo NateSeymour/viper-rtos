@@ -30,3 +30,36 @@ __set_active_stack:
     bfi r1, r0, #1, #1
     msr CONTROL, r1
     bx lr
+
+.global __systick_enable
+.type __systick_enable, %function
+// __STDCALL void __systick_enable();
+__systick_enable:
+    // Set CLKSOURCE[2], TICKINT[1], ENABLE[0] (7 == 0b111)
+    ldr r1, =#0xE000E010 // SYST_CSR
+    ldr r0, [r1]
+    orr r0, #7
+    str r0, [r1]
+    dmb
+
+    bx lr
+
+.global __systick_set_reload
+.type __systick_set_reload, %function
+// __STDCALL void __set_systick_reload(std::uint32_t reload = kSysTickMax);
+__systick_set_reload:
+    ldr r1, =#0xE000E014 // SYST_RVR
+    str r0, [r1]
+    dmb
+
+    bx lr
+
+.global __set_vectors
+.type __set_vectors, %function
+// __STDCALL void __set_vectors(std::uint32_t *vectors);
+__set_vectors:
+    ldr r1, =#0xE000ED08
+    str r0, [r1]
+    dmb
+
+    bx lr

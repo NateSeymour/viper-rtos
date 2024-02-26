@@ -36,7 +36,7 @@ namespace std
             this->data = viper::GlobalAllocator.AllocateRaw(this->size);
         }
 
-        Vector()
+        ~Vector()
         {
             viper::GlobalAllocator.Free(this->data);
         }

@@ -2,12 +2,9 @@
 #define VIPER_RTOS_MUTEX_H
 
 #include <std/int.h>
-#include <scheduler.h>
 
 namespace std
 {
-    class Mutex;
-
     class Mutex
     {
         std::uint32_t value = 0;
