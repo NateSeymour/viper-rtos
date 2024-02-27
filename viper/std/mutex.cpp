@@ -1,6 +1,7 @@
 #include <viper.h>
 #include <std/mutex.h>
 #include <scheduler.h>
+#include <handler.h>
 
 __STDCALL bool std_mutex_acquire(std::Mutex *self);
 __STDCALL bool std_mutex_release(std::Mutex *self);

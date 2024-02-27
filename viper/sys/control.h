@@ -27,7 +27,7 @@ namespace sys
     __STDCALL void __set_vectors(std::uint32_t *vectors);
 
     __STDCALL void __systick_enable();
-    __STDCALL void __set_systick_reload(std::uint32_t reload = kSysTickMax);
+    __STDCALL void __systick_set_reload(std::uint32_t reload = kSysTickMax);
 }
 
 #endif //VIPER_RTOS_CONTROL_H

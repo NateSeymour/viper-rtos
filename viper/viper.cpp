@@ -1,5 +1,5 @@
+#include <viper.h>
 #include <sys/control.h>
-#include <scheduler.h>
 #include <handler.h>
 
 extern void main();
@@ -24,12 +24,14 @@ __ALIGN(128) std::uint32_t vectors[] = {
     0x0,                            // Reserved
     0x0,                            // Reserved
     0x0,                            // Reserved
-    (std::uint32_t)viper::svcall_handler,
+    (std::uint32_t)viper::svcall_entry,
     0x0,                            // DebugMonitor
     0x0,                            // Reserved
     (std::uint32_t)vPendSVHandler,
     (std::uint32_t)vSysTickHandler,
 };
+
+void main() {}
 
 /**
  * Goals:
@@ -43,7 +45,7 @@ __ALIGN(128) std::uint32_t vectors[] = {
  */
 int vInitialize() {
     sys::__set_vectors(vectors);
-    sys::__set_systick_reload();
+    sys::__systick_set_reload();
     sys::__systick_enable();
 
     sys::__set_privilege_level(sys::PrivilegeLevel::kUnprivileged);

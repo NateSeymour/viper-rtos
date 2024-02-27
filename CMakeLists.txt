@@ -15,12 +15,12 @@ set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 
-set(OBJECT_GEN_FLAGS "-O0 -ffreestanding -mthumb -fno-builtin -Wall -ffunction-sections -fdata-sections -fomit-frame-pointer -mabi=aapcs -mcpu=cortex-m55")
+set(OBJECT_GEN_FLAGS "-O0 -ffreestanding -mthumb -fno-builtin -Wall -Wpedantic -ffunction-sections -fdata-sections -fomit-frame-pointer -mabi=aapcs -mcpu=cortex-m55")
 
 set(CMAKE_CXX_FLAGS "${OBJECT_GEN_FLAGS} -fno-exceptions -fno-non-call-exceptions -fno-rtti -fno-use-cxa-atexit -fstack-protector-strong -fno-common")
 set(CMAKE_ASM_FLAGS "${OBJECT_GEN_FLAGS}")
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 20)
 
 ### Linker Options ###
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/application.ld)
@@ -30,6 +30,9 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--gc-sections -nostdli
 project(viper_rtos ASM CXX)
 
 add_library(viper_rtos STATIC
+        viper/handler.cpp
+        viper/handler.h
+        viper/handler.s
         viper/viper.cpp
         viper/viper.h
         viper/sys/control.h
@@ -48,13 +51,13 @@ add_library(viper_rtos STATIC
         viper/std/box.h
         viper/std/memory.h
         viper/std/memory.s
-        viper/handler.cpp
-        viper/handler.h
+        viper/thread.h
 )
 target_include_directories(viper_rtos PUBLIC "${CMAKE_SOURCE_DIR}/viper")
 
 # Bootloader
 add_executable(bootloader
         boot/vector.s
-        boot/init.s)
+        boot/init.s
+        viper/sys/exception.h)
 target_link_libraries(bootloader PUBLIC viper_rtos)

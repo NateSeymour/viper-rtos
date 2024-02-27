@@ -46,7 +46,7 @@ __systick_enable:
 
 .global __systick_set_reload
 .type __systick_set_reload, %function
-// __STDCALL void __set_systick_reload(std::uint32_t reload = kSysTickMax);
+// __STDCALL void __systick_set_reload(std::uint32_t reload = kSysTickMax);
 __systick_set_reload:
     ldr r1, =#0xE000E014 // SYST_RVR
     str r0, [r1]
