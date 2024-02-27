@@ -15,19 +15,19 @@ namespace std
         std::byte *data = nullptr;
 
     public:
-        T Get(std::int32_t i) const
+        T operator[](std::uint32_t i) const
         {
             return *(T*)(this->data + (sizeof(T) * i));
         }
 
-        T operator[](std::int32_t i) const
-        {
-            return this->Get(i);
-        }
-
-        T& operator[](std::int32_t i)
+        T& operator[](std::uint32_t i)
         {
             return *(T*)(this->data + (sizeof(T) * i));
+        }
+
+        void Push(T value)
+        {
+            *(T*)(this->data + (sizeof(T) * this->count++)) = value;
         }
 
         explicit Vector(std::size_t capacity = 0) : capacity(capacity)

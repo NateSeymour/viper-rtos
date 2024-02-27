@@ -9,8 +9,6 @@ void vHardFaultHandler() {}
 void vMemManageFaultHandler() {}
 void vBusFaultHandler() {}
 void vUsageFaultHandler() {}
-void vPendSVHandler() {}
-void vSysTickHandler() {}
 
 __ALIGN(128) std::uint32_t vectors[] = {
     0x0,                            // MSP on RESET
@@ -27,11 +25,9 @@ __ALIGN(128) std::uint32_t vectors[] = {
     (std::uint32_t)viper::svcall_entry,
     0x0,                            // DebugMonitor
     0x0,                            // Reserved
-    (std::uint32_t)vPendSVHandler,
-    (std::uint32_t)vSysTickHandler,
+    (std::uint32_t)viper::pendsv_handler,
+    (std::uint32_t)viper::systick_handler,
 };
-
-void main() {}
 
 /**
  * Goals:
@@ -50,7 +46,7 @@ int vInitialize() {
 
     sys::__set_privilege_level(sys::PrivilegeLevel::kUnprivileged);
 
-    viper::run(main);
+    viper::start_thread(main);
 
     while(1) {}
 }

@@ -37,6 +37,7 @@ add_library(viper_rtos STATIC
         viper/viper.h
         viper/sys/control.h
         viper/sys/control.s
+        viper/sys/exception.h
         viper/std/int.h
         viper/memory/allocator.cpp
         viper/memory/allocator.h
@@ -55,9 +56,16 @@ add_library(viper_rtos STATIC
 )
 target_include_directories(viper_rtos PUBLIC "${CMAKE_SOURCE_DIR}/viper")
 
-# Bootloader
-add_executable(bootloader
+# Tests
+add_executable(viper_rtos-test-scheduler
         boot/vector.s
         boot/init.s
-        viper/sys/exception.h)
-target_link_libraries(bootloader PUBLIC viper_rtos)
+        test/scheduler/scheduler.test.cpp
+        test/scheduler/scheduler.test.h)
+target_link_libraries(viper_rtos-test-scheduler PUBLIC viper_rtos)
+
+add_executable(viper_rtos-test-std-vector
+        boot/vector.s
+        boot/init.s
+        test/std/vector.test.cpp)
+target_link_libraries(viper_rtos-test-std-vector PUBLIC viper_rtos)

@@ -23,10 +23,11 @@ namespace viper
 
     struct Thread
     {
-        std::uint8_t thread_id;
-        std::byte *stack_base;
-        std::byte *sp;
-        subroutine_t subroutine;
+        std::uint64_t thread_id = 0;
+        std::uint8_t niceness = 1;
+        std::byte *stack_base = nullptr;
+        std::byte *sp = nullptr;
+        subroutine_t subroutine = nullptr;
     };
 }
 

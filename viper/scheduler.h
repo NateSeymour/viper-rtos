@@ -9,19 +9,15 @@
 
 namespace viper
 {
-    struct Stack
-    {
-        std::byte stack[1024];
-    };
+    constexpr std::uint64_t kDefaultProcessStackSize = 1024;
 
     class Scheduler
     {
-        std::Mutex m_threads;
         std::Vector<viper::Thread> threads;
         std::uint64_t thread_count = 0;
 
     public:
-
+        void RegisterThread(viper::subroutine_t subroutine);
     };
 
     extern Scheduler GlobalScheduler;
