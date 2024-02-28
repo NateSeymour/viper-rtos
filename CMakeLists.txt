@@ -53,6 +53,7 @@ add_library(viper_rtos STATIC
         viper/std/memory.h
         viper/std/memory.s
         viper/thread.h
+        viper/interop.h
 )
 target_include_directories(viper_rtos PUBLIC "${CMAKE_SOURCE_DIR}/viper")
 

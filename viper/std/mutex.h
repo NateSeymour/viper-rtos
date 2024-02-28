@@ -18,18 +18,18 @@ namespace std
 
     class LockGuard
     {
-        std::Mutex *m;
+        std::Mutex &m;
     public:
         LockGuard() = delete;
 
-        explicit LockGuard(std::Mutex *m) : m(m)
+        explicit LockGuard(std::Mutex &m) : m(m)
         {
-            m->Lock();
+            m.Lock();
         }
 
         ~LockGuard()
         {
-            m->Release();
+            m.Release();
         }
     };
 }

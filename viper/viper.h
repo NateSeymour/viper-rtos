@@ -3,9 +3,7 @@
 
 #include <std/int.h>
 #include <thread.h>
-
-#define __STDCALL extern "C"
-#define __ALIGN(alignment) __attribute__((aligned(alignment)))
+#include <interop.h>
 
 __STDCALL int vInitialize();
 

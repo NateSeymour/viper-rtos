@@ -11,9 +11,9 @@ namespace viper
     enum class SVCall : std::uint8_t
     {
         StartThread,
+        Yield,
     };
 
-    void _start_thread(viper::subroutine_t subroutine, viper::FailureBehavior failure_behavior, std::uint32_t priority);
     void start_thread(viper::subroutine_t subroutine, viper::FailureBehavior failure_behavior = viper::FailureBehavior::kRestart, std::uint32_t priority = 1);
     void yield();
 

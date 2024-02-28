@@ -1,8 +1,9 @@
 #include <viper.h>
 #include <sys/control.h>
 #include <handler.h>
+#include <thread.h>
 
-extern void main();
+extern viper::Thread<> &main;
 
 void vNmiHandler() {}
 void vHardFaultHandler() {}
@@ -45,8 +46,6 @@ int vInitialize() {
     sys::__systick_enable();
 
     sys::__set_privilege_level(sys::PrivilegeLevel::kUnprivileged);
-
-    viper::start_thread(main);
 
     while(1) {}
 }

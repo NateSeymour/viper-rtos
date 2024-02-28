@@ -18,6 +18,8 @@ namespace std
 
     typedef uint32_t size_t;
     typedef uint32_t uintptr_t;
+
+    constexpr uint32_t null = 0;
 }
 
 #endif //VIPER_RTOS_INT_H
