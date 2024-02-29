@@ -9,11 +9,13 @@ namespace viper
     typedef void (*subroutine_t)(void);
 
     constexpr std::uint64_t kDefaultProcessStackSize = 1024;
+    constexpr std::uint64_t kMaxThreadCount = 16;
 
     enum class ThreadState : std::uint32_t
     {
         kRunning,
         kPaused,
+        kPending,
         kYielding,
         kCrashed,
     };
@@ -24,41 +26,64 @@ namespace viper
         kTerminate,
     };
 
-    template<std::size_t size>
-    struct ProcessStack
+    struct Stack
+    {
+        virtual std::size_t Size() const = 0;
+        virtual std::byte *Base() const = 0;
+        virtual bool IsResizable() const = 0;
+
+        Stack() {}
+    };
+
+    template<std::size_t size = kDefaultProcessStackSize>
+    struct StaticallyAllocatedStack : public Stack
     {
         __ALIGN(0x8) std::byte stack[size];
 
-        consteval std::size_t Size() const
+        std::size_t Size() const override
         {
             return size;
         }
 
-        consteval std::byte *Base() const
+        std::byte *Base() const override
         {
             return (std::byte*)this->stack;
         }
 
-        ProcessStack()
+        bool IsResizable() const override
+        {
+            return false;
+        }
+
+        StaticallyAllocatedStack()
         {
             std::memset(this->stack, 0, size);
         }
     };
 
+    struct DynamicallyAllocatedStack : public Stack {};
+
+    class Thread;
+
+    extern Thread *GlobalThreadPool[];
+
     class Thread
     {
-        ProcessStack *stack;
-        std::byte *stack_base;
+    protected:
+        inline static std::uint8_t GlobalThreadCount = 0;
+
+        std::uint8_t id = Thread::GlobalThreadCount++;
+        Stack &stack;
         std::byte *sp;
         subroutine_t subroutine;
         std::uint8_t niceness;
+        ThreadState state = ThreadState::kPaused;
+        FailureBehavior failure_behavior = FailureBehavior::kTerminate;
 
     public:
-        explicit Thread(subroutine_t subroutine, std::uint8_t niceness = 1) : subroutine(subroutine), niceness(niceness)
-        {
-
-        }
+        Thread(Stack &stack, subroutine_t subroutine, std::uint8_t niceness = 1);
     };
+
 }
 
 #endif //VIPER_RTOS_THREAD_H

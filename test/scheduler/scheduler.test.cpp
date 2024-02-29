@@ -1,6 +1,6 @@
-#include "scheduler.test.h"
+#include <thread.h>
 
-#include <std/int.h>
-
-constexpr std::uint64_t main_stack_size = 12;
-void main() {}
+viper::StaticallyAllocatedStack<1024> main_stack;
+viper::Thread main_thread(main_stack, []() {
+    // Do something
+});

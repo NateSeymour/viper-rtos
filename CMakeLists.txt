@@ -23,7 +23,7 @@ set(CMAKE_ASM_FLAGS "${OBJECT_GEN_FLAGS}")
 set(CMAKE_CXX_STANDARD 20)
 
 ### Linker Options ###
-set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/application.ld)
+set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/viper.ld)
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--gc-sections -nostdlib -nostartfiles --specs=nosys.specs -mthumb -mabi=aapcs -T${LINKER_SCRIPT}")
 
 # Viper
@@ -54,6 +54,7 @@ add_library(viper_rtos STATIC
         viper/std/memory.s
         viper/thread.h
         viper/interop.h
+        viper/thread.cpp
 )
 target_include_directories(viper_rtos PUBLIC "${CMAKE_SOURCE_DIR}/viper")
 

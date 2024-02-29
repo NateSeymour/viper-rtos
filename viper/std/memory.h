@@ -5,6 +5,7 @@
 #include <std/int.h>
 
 #define __ALIGN(alignment) __attribute__((aligned(alignment)))
+#define __SECTION(secname) __attribute__((section(secname)))
 
 namespace std
 {

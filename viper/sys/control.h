@@ -28,6 +28,8 @@ namespace sys
 
     __STDCALL void __systick_enable();
     __STDCALL void __systick_set_reload(std::uint32_t reload = kSysTickMax);
+
+    __STDCALL void __wfi();
 }
 
 #endif //VIPER_RTOS_CONTROL_H

@@ -3,8 +3,6 @@
 #include <handler.h>
 #include <thread.h>
 
-extern viper::Thread<> &main;
-
 void vNmiHandler() {}
 void vHardFaultHandler() {}
 void vMemManageFaultHandler() {}
@@ -30,6 +28,8 @@ __ALIGN(128) std::uint32_t vectors[] = {
     (std::uint32_t)viper::systick_handler,
 };
 
+extern viper::Thread main_thread;
+
 /**
  * Goals:
  * 1. Initialize heap/allocator
@@ -40,12 +40,15 @@ __ALIGN(128) std::uint32_t vectors[] = {
  * 4. Start main thread execution
  * @return
  */
-int vInitialize() {
+[[noreturn]] void vInitialize()
+{
     sys::__set_vectors(vectors);
     sys::__systick_set_reload();
     sys::__systick_enable();
 
     sys::__set_privilege_level(sys::PrivilegeLevel::kUnprivileged);
 
-    while(1) {}
+    while(true) {
+        sys::__wfi();
+    }
 }

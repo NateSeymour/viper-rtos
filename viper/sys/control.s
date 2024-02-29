@@ -63,3 +63,11 @@ __set_vectors:
     dmb
 
     bx lr
+
+.global __wfi
+.type __wfi, %function
+// __STDCALL void __wfi();
+__wfi:
+    wfi
+
+    bx lr
