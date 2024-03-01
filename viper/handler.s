@@ -15,5 +15,5 @@ svcall_entry:
     sub r3, #2
     ldrh r0, [r3]
 
-    // void svcall_handler(viper::SVCall svc_number, sys::ExceptionContext *context);
+    // void svcall_handler(viper::SVCall svc_number, system::ExceptionContext *context);
     b svcall_handler

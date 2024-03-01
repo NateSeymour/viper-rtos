@@ -1,14 +1,14 @@
 #ifndef VIPER_RTOS_MPS3_AN524_H
 #define VIPER_RTOS_MPS3_AN524_H
 
-#include <cpu/pe.h>
+#include <system/cpu/generic.h>
 
 namespace system
 {
-    class ArmAn524Core : public viper::GenericArmCore
+    class ArmAn524Core : public system::GenericArmCore
     {
     public:
-        explicit ArmAn524Core(const std::uint8_t cpu_id) : viper::GenericArmCore(cpu_id) {}
+        explicit ArmAn524Core(const std::uint8_t cpu_id) : system::GenericArmCore(cpu_id) {}
     };
 
     extern ArmAn524Core Cpu0;

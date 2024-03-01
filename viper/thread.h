@@ -4,12 +4,16 @@
 #include <std/memory.h>
 #include <std/int.h>
 
+namespace system
+{
+    class GenericArmCore;
+}
+
 namespace viper
 {
     typedef void (*subroutine_t)(void);
 
     constexpr std::uint64_t kDefaultProcessStackSize = 1024;
-    constexpr std::uint64_t kMaxThreadCount = 16;
 
     enum class ThreadState : std::uint32_t
     {
@@ -63,16 +67,11 @@ namespace viper
 
     struct DynamicallyAllocatedStack : public Stack {};
 
-    class Thread;
-
-    extern Thread *GlobalThreadPool[];
-
     class Thread
     {
-    protected:
-        inline static std::uint8_t GlobalThreadCount = 0;
+        friend class system::GenericArmCore;
 
-        std::uint8_t id = Thread::GlobalThreadCount++;
+    protected:
         Stack &stack;
         std::byte *sp;
         subroutine_t subroutine;
@@ -81,7 +80,7 @@ namespace viper
         FailureBehavior failure_behavior = FailureBehavior::kTerminate;
 
     public:
-        Thread(Stack &stack, subroutine_t subroutine, std::uint8_t niceness = 1);
+        Thread(system::GenericArmCore *core, Stack &stack, subroutine_t subroutine, std::uint8_t niceness = 1);
     };
 
 }

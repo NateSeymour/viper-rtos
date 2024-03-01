@@ -1,8 +1,6 @@
 #include <viper.h>
-#include <sys/control.h>
 #include <handler.h>
-#include <thread.h>
-#include <cpu/pe.h>
+#include <system/cpu/generic.h>
 
 void vNmiHandler() {}
 void vHardFaultHandler() {}
@@ -29,25 +27,7 @@ __ALIGN(128) std::uint32_t vectors[] = {
     (std::uint32_t)viper::systick_handler,
 };
 
-/**
- * Goals:
- * - Perform system initialization (via CPU0)
- *      - Setting VTOR
- *      - Enabling SysTick
- *      - Setting SysTick reload
- *      - Privilege De-escalation
- * - Start execution of thread_main
- * @return
- */
-[[noreturn]] void vInitialize()
+[[noreturn]] void viper_main()
 {
-    sys::__set_vectors(vectors);
-    sys::__systick_set_reload();
-    sys::__systick_enable();
-
-    sys::__set_privilege_level(sys::PrivilegeLevel::kUnprivileged);
-
-    while(true) {
-        sys::__wfi();
-    }
+    system::current_core()->BeginExecution();
 }

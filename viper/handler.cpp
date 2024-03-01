@@ -1,5 +1,5 @@
 #include <handler.h>
-#include <scheduler.h>
+#include <system/system.h>
 
 std::uint32_t __stack_chk_guard = 0x1ee7c0de;
 __STDCALL void __stack_chk_fail(void)
@@ -20,7 +20,7 @@ __STDCALL void __stack_chk_fail(void)
 
 void _start_thread(viper::subroutine_t subroutine, viper::FailureBehavior failure_behavior, std::uint32_t priority)
 {
-    if(sys::__get_privilege_level() != sys::PrivilegeLevel::kPrivileged)
+    if(system::__get_privilege_level() != system::PrivilegeLevel::kPrivileged)
     {
         return;
     }
@@ -35,7 +35,7 @@ void _yield()
 
 void viper::yield() _forward_svcall(viper::SVCall::Yield, std::null, std::null, std::null, std::null)
 
-void viper::svcall_handler(viper::SVCall svc_number, sys::ExceptionContext *context)
+void viper::svcall_handler(viper::SVCall svc_number, system::ExceptionContext *context)
 {
     switch(svc_number)
     {

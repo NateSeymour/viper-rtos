@@ -1,16 +1,16 @@
 #include <memory/allocator.h>
-#include <sys/control.h>
+#include <system/system.h>
 #include <std/memory.h>
 
 viper::Allocator viper::GlobalAllocator;
 
 viper::Allocator::Allocator()
 {
-    this->heap_base = (std::byte *)&sys::__heap_base;
-    this->heap_top = (std::byte *)&sys::__heap_top;
+    this->heap_base = (std::byte *)&system::__heap_base;
+    this->heap_top = (std::byte *)&system::__heap_top;
 
     this->heap_size = this->heap_top - this->heap_base;
-    this->block_size = (std::uint32_t)&sys::__HEAP_BLOCK_SIZE;
+    this->block_size = (std::uint32_t)&system::__HEAP_BLOCK_SIZE;
 
     this->block_count = this->heap_size / this->block_size;
 
@@ -24,7 +24,7 @@ viper::Allocator::Allocator()
 
 std::byte *viper::Allocator::AllocateRaw(std::size_t size)
 {
-    if(sys::__get_privilege_level() != sys::PrivilegeLevel::kPrivileged) {
+    if(system::__get_privilege_level() != system::PrivilegeLevel::kPrivileged) {
         return nullptr;
     }
 

@@ -1,7 +1,6 @@
 #ifndef VIPER_RTOS_ALLOCATOR_H
 #define VIPER_RTOS_ALLOCATOR_H
 
-#include <sys/link.h>
 #include <std/int.h>
 
 namespace viper

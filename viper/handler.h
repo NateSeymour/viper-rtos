@@ -4,7 +4,7 @@
 #include <viper.h>
 #include <thread.h>
 #include <std/int.h>
-#include <sys/exception.h>
+#include <system/exception.h>
 
 namespace viper
 {
@@ -19,7 +19,7 @@ namespace viper
 
     // Exception Handlers
     __STDCALL void svcall_entry();
-    __STDCALL void svcall_handler(viper::SVCall svc_number, sys::ExceptionContext *context);
+    __STDCALL void svcall_handler(viper::SVCall svc_number, system::ExceptionContext *context);
 
     void systick_handler();
     void pendsv_handler();

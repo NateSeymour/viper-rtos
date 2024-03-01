@@ -6,7 +6,7 @@
 .type __reset, %function
 __reset:
     bl __runtime_init
-    bl vInitialize
+    bl viper_main
 
 .global __hang
 .type __hang, %function
