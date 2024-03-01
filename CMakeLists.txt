@@ -55,6 +55,12 @@ add_library(viper_rtos STATIC
         viper/thread.h
         viper/interop.h
         viper/thread.cpp
+        viper/device/mps3_an524/mps3_an524.h
+        viper/cpu/pe.cpp
+        viper/cpu/pe.h
+        viper/cpu/armv8-m/armv8-m.cpp
+        viper/cpu/armv8-m/armv8-m.h
+        viper/device/mps3_an524/mps3_an534.cpp
 )
 target_include_directories(viper_rtos PUBLIC "${CMAKE_SOURCE_DIR}/viper")
 

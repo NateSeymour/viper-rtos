@@ -2,6 +2,7 @@
 #include <sys/control.h>
 #include <handler.h>
 #include <thread.h>
+#include <cpu/pe.h>
 
 void vNmiHandler() {}
 void vHardFaultHandler() {}
@@ -28,16 +29,14 @@ __ALIGN(128) std::uint32_t vectors[] = {
     (std::uint32_t)viper::systick_handler,
 };
 
-extern viper::Thread main_thread;
-
 /**
  * Goals:
- * 1. Initialize heap/allocator
- * 2. Start scheduler
- * 3. Initialize coprocessor
- * 4. Start coprocessor scheduler
- * 3. Initialize main thread
- * 4. Start main thread execution
+ * - Perform system initialization (via CPU0)
+ *      - Setting VTOR
+ *      - Enabling SysTick
+ *      - Setting SysTick reload
+ *      - Privilege De-escalation
+ * - Start execution of thread_main
  * @return
  */
 [[noreturn]] void vInitialize()
