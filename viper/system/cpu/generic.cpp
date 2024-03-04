@@ -22,6 +22,8 @@ void system::GenericArmCore::BeginExecution()
     system::__set_psp(active_thread->sp);
     system::__set_active_stack(system::StackType::kProcess);
 
+    // TODO: Perform stack limit checking
+
     system::__set_privilege_level(system::PrivilegeLevel::kUnprivileged);
 
     active_thread->subroutine();

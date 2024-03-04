@@ -4,7 +4,7 @@
 std::uint32_t __stack_chk_guard = 0x1ee7c0de;
 __STDCALL void __stack_chk_fail(void)
 {
-
+    // TODO: Implement
 }
 
 #define _forward_svcall(svc_number, param1, param2, param3, param4) \

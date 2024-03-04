@@ -25,7 +25,7 @@ namespace system
     struct ArmMemoryMappedRegisters {};
 
     extern const ImplementationDefinedRegisters IDMReg;
-    const ArmMemoryMappedRegisters MReg;
+    extern const ArmMemoryMappedRegisters MReg;
 }
 
 #endif //VIPER_RTOS_REGISTER_H

@@ -2,7 +2,7 @@
 #include <system/register.h>
 #include <system/cpu.h>
 
-const system::ImplementationDefinedRegisters IDMReg = {
+const system::ImplementationDefinedRegisters system::IDMReg = {
         .CPUID = (std::uint32_t*)0x4001F000,
 };
 

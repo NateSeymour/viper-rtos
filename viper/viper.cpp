@@ -8,7 +8,7 @@ void vMemManageFaultHandler() {}
 void vBusFaultHandler() {}
 void vUsageFaultHandler() {}
 
-__ALIGN(128) std::uint32_t vectors[] = {
+__ALIGN(128) std::uint32_t viper::vectors[] = {
     0x0,                            // MSP on RESET
     0x0,                            // RESET
     (std::uint32_t)vNmiHandler,
