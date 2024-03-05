@@ -62,3 +62,8 @@ void viper::pendsv_handler()
 {
 
 }
+
+void viper::hardfault_handler()
+{
+
+}

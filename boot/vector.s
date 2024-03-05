@@ -1,4 +1,6 @@
 .thumb
+.syntax unified
+
 .section .vectors
 .global __vectors
 .word __stack_top // MSP

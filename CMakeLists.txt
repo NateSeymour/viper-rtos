@@ -11,16 +11,38 @@ set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 
-set(OBJECT_GEN_FLAGS "-O0 -ffreestanding -mthumb -fno-builtin -Wall -Wpedantic -ffunction-sections -fdata-sections -fomit-frame-pointer -mabi=aapcs -mcpu=cortex-m55")
-
-set(CMAKE_CXX_FLAGS "${OBJECT_GEN_FLAGS} -fno-exceptions -fno-non-call-exceptions -fno-rtti -fno-use-cxa-atexit -fstack-protector-strong -fno-common")
-set(CMAKE_ASM_FLAGS "${OBJECT_GEN_FLAGS}")
-
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_C_STANDARD 11)
+
+### Compiler Options ###
+set(DBG_OBJECT_GEN_FLAGS "-O0")
+set(REL_OBJECT_GEN_FLAGS "-O0")
+
+set(OBJECT_GEN_FLAGS "-ffreestanding -mthumb -fno-builtin -Wall -Wpedantic -ffunction-sections -fdata-sections -fomit-frame-pointer -mabi=aapcs -mcpu=cortex-m55")
+
+if(${CMAKE_BUILD_TYPE} MATCHES "Debug")
+    set(OBJECT_GEN_FLAGS "${DBG_OBJECT_GEN_FLAGS} ${OBJECT_GEN_FLAGS}")
+else()
+    set(OBJECT_GEN_FLAGS "${REL_OBJECT_GEN_FLAGS} ${OBJECT_GEN_FLAGS}")
+endif()
+
+set(CMAKE_CXX_FLAGS "${OBJECT_GEN_FLAGS} -fno-exceptions -fno-non-call-exceptions -fno-rtti -fno-use-cxa-atexit -fno-common")
+set(CMAKE_ASM_FLAGS "${OBJECT_GEN_FLAGS}")
 
 ### Linker Options ###
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/viper.ld)
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--gc-sections -nostdlib -nostartfiles --specs=nosys.specs -mthumb -mabi=aapcs -T${LINKER_SCRIPT}")
+
+set(DBG_LINKER_FLAGS "--specs=nano.specs")
+set(REL_LINKER_FLAGS "-nostdlib -nostartfiles --specs=nosys.specs")
+
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--gc-sections -mthumb -mabi=aapcs -T${LINKER_SCRIPT}")
+
+if(${CMAKE_BUILD_TYPE} MATCHES "Debug")
+    set(CMAKE_EXE_LINKER_FLAGS "${DBG_LINKER_FLAGS} ${CMAKE_EXE_LINKER_FLAGS}")
+    message(${CMAKE_EXE_LINKER_FLAGS})
+else()
+    set(CMAKE_EXE_LINKER_FLAGS "${REL_LINKER_FLAGS} ${CMAKE_EXE_LINKER_FLAGS}")
+endif()
 
 # Viper
 project(viper_rtos ASM CXX)
@@ -56,6 +78,8 @@ add_library(viper_rtos STATIC
         viper/system/register.h
         viper/system/cpu.h
         viper/system/exception.h
+        viper/system/register.cpp
+        viper/build_config.in.h
 )
 target_include_directories(viper_rtos PUBLIC "${CMAKE_SOURCE_DIR}/viper")
 

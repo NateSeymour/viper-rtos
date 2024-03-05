@@ -11,6 +11,8 @@ SECTIONS {
     .text : {
         KEEP(*(.vectors))
         *(.text*)
+        KEEP(*(.init))
+        KEEP(*(.fini))
         *(.rodata*)
         . = ALIGN(LENGTH(ROM));
     } >ROM
@@ -41,6 +43,6 @@ SECTIONS {
         . = __heap_top;
         __stack_end = ALIGN(0x8);
         . = __stack_end + __STACK_SIZE;
-        __stack_top = ALIGN(0x8);
+        PROVIDE(__stack_top = ALIGN(0x8));
     } >RAM
 }

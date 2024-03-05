@@ -21,10 +21,11 @@ namespace system
 
     public:
         void RegisterThread(viper::Thread *thread);
+        void InitializeCore();
 
         [[noreturn]] void BeginExecution();
 
-        explicit GenericArmCore(std::uint8_t cpu_id);
+        explicit GenericArmCore(std::uint8_t cpu_id) : cpu_id(cpu_id) {};
     };
 }
 

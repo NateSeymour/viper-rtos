@@ -23,6 +23,7 @@ namespace viper
 
     void systick_handler();
     void pendsv_handler();
+    void hardfault_handler();
 }
 
 #endif //VIPER_RTOS_HANDLER_H

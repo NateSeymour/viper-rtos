@@ -9,4 +9,5 @@ const system::ImplementationDefinedRegisters system::IDMReg = {
 system::ArmAn524Core system::Cpu0(0);
 system::ArmAn524Core system::Cpu1(1);
 
+const std::uint8_t system::CoreCount = 2;
 system::GenericArmCore *const system::Cores[] = {&system::Cpu0, &system::Cpu1};

@@ -19,6 +19,9 @@ void system::GenericArmCore::BeginExecution()
 {
     viper::Thread *active_thread = this->threads[active_thread_index];
 
+    // TODO: Fix bug where we rely on GenericArmCore to be constructed
+    // TODO: Fix bug where local vars are no longer on stack
+
     system::__set_psp(active_thread->sp);
     system::__set_active_stack(system::StackType::kProcess);
 
@@ -37,11 +40,11 @@ void system::GenericArmCore::BeginExecution()
     }
 }
 
-system::GenericArmCore::GenericArmCore(std::uint8_t cpu_id) : cpu_id(cpu_id)
+void system::GenericArmCore::InitializeCore()
 {
-    if (system::current_core() != this) return;
+    if(system::current_core() != this) return;
 
-    system::__set_vectors(viper::vectors);
+    *system::MReg.VTOR = (std::uint32_t)&viper::vectors;
     system::__systick_set_reload();
     system::__systick_enable();
 }
