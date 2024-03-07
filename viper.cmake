@@ -1,7 +1,7 @@
 function(viper_init)
     ### Toolchain Options ###
-    set(CMAKE_SYSTEM_NAME none PARENT_SCOPE)
-    set(CMAKE_SYSTEM_PROCESSOR arm)
+    set(CMAKE_SYSTEM_NAME Generic PARENT_SCOPE)
+    set(CMAKE_SYSTEM_PROCESSOR arm PARENT_SCOPE)
 
     set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY PARENT_SCOPE)
 
@@ -14,10 +14,9 @@ function(viper_init)
     set(CMAKE_C_STANDARD 11 PARENT_SCOPE)
 endfunction()
 
-function(viper_set_device DEVICE)
+function(viper_target_device TARGET DEVICE)
     ### Source Directory ###
-    get_target_property(VIPER_SOURCE_DIR viper_rtos SOURCE_DIR)
-    include(${VIPER_SOURCE_DIR}/viper/system/device/${DEVICE}/${DEVICE}.cmake)
+    include(${viper-rtos_SOURCE_DIR}/viper/system/device/${DEVICE}/${DEVICE}.cmake)
 
     ### Compiler Options ###
     set(DBG_OBJECT_GEN_FLAGS "-O0")
@@ -31,8 +30,11 @@ function(viper_set_device DEVICE)
         set(OBJECT_GEN_FLAGS "${REL_OBJECT_GEN_FLAGS} ${OBJECT_GEN_FLAGS}" PARENT_SCOPE)
     endif()
 
-    set(CMAKE_CXX_FLAGS "${OBJECT_GEN_FLAGS} -fno-exceptions -fno-non-call-exceptions -fno-rtti -fno-use-cxa-atexit -fstack-protector-strong -fno-common" PARENT_SCOPE)
-    set(CMAKE_ASM_FLAGS "${OBJECT_GEN_FLAGS}" PARENT_SCOPE)
+    # TODO: Fix issue with -fstack-protector-strong
+    # set(CMAKE_CXX_FLAGS "${OBJECT_GEN_FLAGS} -fno-exceptions -fno-non-call-exceptions -fno-rtti -fno-use-cxa-atexit -fno-common" PARENT_SCOPE)
+    # set(CMAKE_ASM_FLAGS "${OBJECT_GEN_FLAGS}" PARENT_SCOPE)
+
+    target_compile_options(${TARGET} PUBLIC "${OBJECT_GEN_FLAGS} -fno-exceptions -fno-non-call-exceptions -fno-rtti -fno-use-cxa-atexit -fno-common")
 
     ### Linker Options ###
     set(DBG_LINKER_FLAGS "--specs=nano.specs")
