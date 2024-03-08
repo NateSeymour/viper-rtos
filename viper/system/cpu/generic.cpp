@@ -44,6 +44,7 @@ void system::GenericArmCore::InitializeCore()
 {
     if(system::current_core() != this) return;
 
+    // Set VTOR and SysTick registers
     *system::MReg.VTOR = (std::uint32_t)&viper::vectors;
     system::__systick_set_reload();
     system::__systick_enable();
