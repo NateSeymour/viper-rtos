@@ -6,3 +6,4 @@ add_library(viper-boot
         vector.s
         init.s
 )
+target_link_libraries(viper-boot PUBLIC viper)

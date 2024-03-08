@@ -5,4 +5,4 @@ project(viper-test CXX ASM)
 add_executable(viper-test-scheduler
         scheduler/scheduler.test.cpp
 )
-target_link_libraries(viper-test-scheduler PUBLIC viper-mps3_an524)
+target_link_libraries(viper-test-scheduler PUBLIC viper-boot)

@@ -1,5 +1,5 @@
-.thumb
 .syntax unified
+.thumb
 
 .global svcall_entry
 .type svcall_entry, %function

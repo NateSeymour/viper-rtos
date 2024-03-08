@@ -1,4 +1,4 @@
-function(viper_init)
+function(viper_init DEVICE)
     ### Toolchain Options ###
     set(CMAKE_SYSTEM_NAME Generic PARENT_SCOPE)
     set(CMAKE_SYSTEM_PROCESSOR arm PARENT_SCOPE)
@@ -10,8 +10,7 @@ function(viper_init)
     set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY PARENT_SCOPE)
     set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY PARENT_SCOPE)
 
-    set(CMAKE_CXX_STANDARD 20 PARENT_SCOPE)
-    set(CMAKE_C_STANDARD 11 PARENT_SCOPE)
+    set(VIPER_DEVICE ${DEVICE} FORCE)
 endfunction()
 
 function(viper_target_device TARGET DEVICE)

@@ -11,10 +11,27 @@ SECTIONS {
     .text : {
         KEEP(*(.vectors))
         *(.text*)
+
         KEEP(*(.init))
         KEEP(*(.fini))
+
+        /* .ctors */
+        *crtbegin.o(.ctors)
+        *crtbegin?.o(.ctors)
+        *(EXCLUDE_FILE(*crtend?.o *crtend.o) .ctors)
+        *(SORT(.ctors.*))
+        *(.ctors)
+
+        /* .dtors */
+        *crtbegin.o(.dtors)
+        *crtbegin?.o(.dtors)
+        *(EXCLUDE_FILE(*crtend?.o *crtend.o) .dtors)
+        *(SORT(.dtors.*))
+        *(.dtors)
+
         *(.rodata*)
-        . = ALIGN(LENGTH(ROM));
+
+        KEEP(*(.eh_frame*))
     } >ROM
 
     .data : {
